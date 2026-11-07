@@ -2,7 +2,6 @@
     "compilerOptions": {
         "moduleResolution": "NodeNext",
         "strict": true,
-        "noEmit": true,
         "verbatimModuleSyntax": true,
         "rootDir": "./src",
         "outDir": "./dist",
@@ -11,12 +10,12 @@
         "isolatedModules": true,
         "resolveJsonModule": true,
         "module": "NodeNext",
-        "target": "ES2025",
+        "target": "ESNext",
         "lib": ["ESNext", "ESNext.AsyncIterable"],
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true
     },
-    "exclude": ["node_modules", "dist", "__tests__"],
+    "exclude": ["node_modules", "dist", "src/__tests__"],
     "include": ["src"]
 }
 

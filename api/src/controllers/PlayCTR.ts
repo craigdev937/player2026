@@ -39,7 +39,7 @@ class PlayerClass {
             const QRY = "SELECT * FROM players ORDER BY id ASC";
             const players = await dBase.query<IPlay>(QRY);
             return res
-                .status(201)
+                .status(200)
                 .json({
                     success: true,
                     message: "All Players Listed!",
@@ -65,8 +65,14 @@ class PlayerClass {
             const QRY = "SELECT * FROM players WHERE id=$1";
             const value = [id];
             const player = await dBase.query<IPlay>(QRY, value);
-            res
-                .status(201)
+            if (player.rows.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Player not found!"
+                });
+            };
+            return res
+                .status(200)
                 .json({
                     success: true,
                     message: "One Player Listed!",
@@ -95,8 +101,14 @@ class PlayerClass {
             const values = [P.type, P.first, P.last, P.age, 
                 P.info, P.image, id];
             const player = await dBase.query<IPlay>(QRY, values);
-            res
-                .status(201)
+            if (player.rows.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Player not found!"
+                });
+            };
+            return res
+                .status(200)
                 .json({
                     success: true,
                     message: "The Player is Updated!",
