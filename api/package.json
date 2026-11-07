@@ -11,6 +11,7 @@
   "scripts": {
     "test": "rstest",
     "dev": "tsx watch src/index.ts",
+    "build": "tsc", 
     "pro": "tsc && node dist/index.js",
     "start": "node dist/index.js"
   },
