@@ -1,6 +1,7 @@
 import express from "express";
 import { dBase } from "../data/Data.js";
 import { PlayZod } from "../validation/Zod.js";
+import { sendError } from "../validation/SError.js";
 import type { PlayType } from "../validation/Zod.js";
 import type { IPlay } from "../models/Interfaces.js";
 
@@ -42,13 +43,13 @@ class PlayerClass {
                 .status(200)
                 .json({
                     success: true,
-                    message: "All Players Listed!",
+                    message: "All Players!",
                     count: players.rows.length,
                     data: players.rows
                 });
         } catch (error) {
             res
-                .status(res.statusCode)
+                .status(500)
                 .json({
                     success: false,
                     message: "Error Creating a new Player!",
@@ -69,18 +70,19 @@ class PlayerClass {
                 return res.status(404).json({
                     success: false,
                     message: "Player not found!"
-                });
-            };
-            return res
+                }) ;
+            } else {
+                return res
                 .status(200)
                 .json({
                     success: true,
-                    message: "One Player Listed!",
+                    message: "One Player Found!",
                     data: player.rows[0]
                 });
+            };
         } catch (error) {
             res
-                .status(res.statusCode)
+                .status(500)
                 .json({
                     success: false,
                     message: "Error Creating a new Player!",
@@ -106,24 +108,17 @@ class PlayerClass {
                     success: false,
                     message: "Player not found!"
                 });
-            };
-            return res
+            } else {
+                return res
                 .status(200)
                 .json({
                     success: true,
                     message: "The Player is Updated!",
                     data: player.rows[0]
                 });
+            };
         } catch (error) {
-            res
-                .status(res.statusCode)
-                .json({
-                    success: false,
-                    message: "Error Updating a new Player!",
-                    error: error instanceof Error ?
-                        error.message : "Unknown Error!"
-                });
-            return next(error);
+            return sendError(res, error, "Error Updating the Player!");
         }
     };
 
@@ -132,16 +127,23 @@ class PlayerClass {
             const { id } = req.params;
             const QRY = "DELETE FROM players WHERE id=$1";
             const delPlayer = await dBase.query<IPlay>(QRY, [id]);
-            return res
-                .status(201)
+            if (delPlayer.rows.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Player not found!"
+                });
+            } else {
+                return res
+                .status(200)
                 .json({
                     success: true,
                     message: "The Player was Deleted!",
                     data: delPlayer.rows[0]
                 });
+            };
         } catch (error) {
             res
-                .status(res.statusCode)
+                .status(500)
                 .json({
                     success: false,
                     message: "Error Deleting the Player!",
