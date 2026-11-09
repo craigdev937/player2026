@@ -2,7 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "app.ts",
   "type": "module",
   "engines": {
     "node": "26.x",
@@ -10,10 +10,10 @@
   },
   "scripts": {
     "test": "rstest",
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch src/app.ts",
     "build": "tsc", 
-    "pro": "tsc && node dist/index.js",
-    "start": "node dist/index.js"
+    "pro": "tsc && node dist/app.js",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "dependencies": {
